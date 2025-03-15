@@ -38,3 +38,9 @@ jobs:
 
     - name: Build for ${{ matrix.os }}-${{ matrix.arch }}
       run: GOOS=${{ matrix.os }} GOARCH=${{ matrix.arch }} go build -o sudoku-solver-${{ matrix.os }}-${{ matrix.arch }}
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: sudoku-solver-${{ matrix.os }}-${{ matrix.arch }}
+        path: sudoku-solver-${{ matrix.os }}-${{ matrix.arch }}
