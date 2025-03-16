@@ -6,6 +6,7 @@ import (
 	"os"
 	"os/exec"
 	"runtime"
+	"sudoku-solver/solver"
 	"sudoku-solver/sudoku"
 )
 
@@ -13,9 +14,12 @@ var reader = bufio.NewReader(os.Stdin)
 
 func main() {
 	field := createSampleField()
-	field.Print()
+	solver := solver.CreateSolver()
 
 	for {
+		clearConsole()
+		field.Print()
+
 		fmt.Println("\nOptions:")
 		fmt.Println("1. Set value")
 		fmt.Println("2. Solve")
@@ -30,15 +34,10 @@ func main() {
 			params := readParams()
 			field.SetValue(params[0], params[1], params[2])
 		case "2":
-			fmt.Println("Not implemented yet!")
-			readString()
+			solver.Solve(field)
 		case "0":
-			clearConsole()
 			os.Exit(0)
 		}
-
-		clearConsole()
-		field.Print()
 	}
 }
 

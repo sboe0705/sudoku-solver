@@ -33,6 +33,10 @@ func (field Field) Print() {
 	}
 }
 
+func (field Field) Size() int {
+	return field.size
+}
+
 func (field Field) SetValue(x, y, value int) {
 	x = field.toIndex(x)
 	field.cells[y][x] = value
