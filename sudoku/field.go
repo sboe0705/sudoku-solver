@@ -21,7 +21,12 @@ type Field struct {
 func (field Field) Print() {
 	for y := 0; y < len(field.cells); y++ {
 		for x := 0; x < len(field.cells[y]); x++ {
-			fmt.Print(field.cells[y][x])
+			value := field.cells[y][x]
+			if value == 0 {
+				fmt.Print("_")
+			} else {
+				fmt.Print(field.cells[y][x])
+			}
 			fmt.Print(" ")
 		}
 		fmt.Println()
