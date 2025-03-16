@@ -33,19 +33,6 @@ func (field Field) Print() {
 	}
 }
 
-func (field Field) getRow(y int) []int {
-	return slices.Clone(field.cells[y])
-}
-
-func (field Field) getCol(x int) []int {
-	x = field.toIndex(x)
-	col := make([]int, field.size)
-	for y := 0; y < len(field.cells); y++ {
-		col[y] = field.cells[y][x]
-	}
-	return col
-}
-
 func (field Field) SetValue(x, y, value int) {
 	x = field.toIndex(x)
 	field.cells[y][x] = value
@@ -57,18 +44,27 @@ func (field Field) GetValue(x, y int) int {
 }
 
 func (field Field) GetRow(y int) Line {
-	row := field.getRow(y)
+	row := slices.Clone(field.cells[y])
 	return CreateNewLine(row)
 }
 
 func (field Field) GetCol(x int) Line {
 	x = field.toIndex(x)
-	return CreateNewLine(field.getCol(x))
+
+	// collect values
+	col := make([]int, field.size)
+	for y := 0; y < len(field.cells); y++ {
+		col[y] = field.cells[y][x]
+	}
+
+	return CreateNewLine(col)
 }
 
 func (field Field) toIndex(letterOrIndex int) int {
-	if letterOrIndex >= field.size && letterOrIndex >= 'A' {
+	if letterOrIndex >= 'A' && letterOrIndex < 'A'+field.size {
 		return letterOrIndex - 'A'
+	} else if letterOrIndex >= 'a' && letterOrIndex < 'a'+field.size {
+		return letterOrIndex - 'a'
 	}
 	return letterOrIndex
 }
