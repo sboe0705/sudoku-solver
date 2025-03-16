@@ -56,26 +56,14 @@ func (field Field) GetValue(x, y int) int {
 	return field.cells[y][x]
 }
 
-func (field Field) GetRowValues(y int) []int {
+func (field Field) GetRow(y int) Line {
 	row := field.getRow(y)
-	return getLineValues(row)
+	return CreateNewLine(row)
 }
 
-func (field Field) GetColValues(x int) []int {
+func (field Field) GetCol(x int) Line {
 	x = field.toIndex(x)
-	col := field.getCol(x)
-	return getLineValues(col)
-}
-
-func getLineValues(line []int) []int {
-	values := []int{}
-	for i := 0; i < len(line); i++ {
-		value := line[i]
-		if value != 0 {
-			values = append(values, value)
-		}
-	}
-	return values
+	return CreateNewLine(field.getCol(x))
 }
 
 func (field Field) toIndex(letterOrIndex int) int {
