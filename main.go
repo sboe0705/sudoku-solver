@@ -23,23 +23,21 @@ func main() {
 		fmt.Print("Select an option: ")
 
 		option := readString()
-		clearConsole()
 
 		switch option {
 		case "1":
-			fmt.Println("Set value:")
-			field.Print()
-			fmt.Println("\nInput (Format: \"X Y ?\"): ")
+			fmt.Print("Input (Format: \"X Y ?\"): ")
 			params := readParams()
 			field.SetValue(params[0], params[1], params[2])
 		case "2":
 			fmt.Println("Not implemented yet!")
+			readString()
 		case "0":
+			clearConsole()
 			os.Exit(0)
 		}
 
 		clearConsole()
-		fmt.Println()
 		field.Print()
 	}
 }
