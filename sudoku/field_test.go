@@ -75,13 +75,14 @@ func TestGetRowValues(t *testing.T) {
 	row := field.GetRow(0)
 
 	// then
-	common.AssertArray(t, []int{1, 2}, row.GetValues(), "not matching row values")
+	common.AssertInt(t, size, row.size, "not matching row size")
+	common.AssertArray(t, []int{1, 2, 0}, row.cells, "not matching row cells")
 
 	// when
 	row = field.GetRow(1)
 
 	// then
-	common.AssertArray(t, []int{}, row.GetValues(), "not matching row values")
+	common.AssertArray(t, []int{0, 0, 0}, row.cells, "not matching row cells")
 }
 
 func TestColRowValues(t *testing.T) {
@@ -96,9 +97,10 @@ func TestColRowValues(t *testing.T) {
 	col := field.GetCol(0)
 
 	// then
-	common.AssertArray(t, []int{1, 2}, col.GetValues(), "not matching row values")
+	common.AssertInt(t, size, col.size, "not matching column size")
+	common.AssertArray(t, []int{1, 2, 0}, col.cells, "not matching column cells")
 
 	// when
 	col = field.GetCol(1)
-	common.AssertArray(t, []int{}, col.GetValues(), "not matching row values")
+	common.AssertArray(t, []int{0, 0, 0}, col.cells, "not matching column cells")
 }
