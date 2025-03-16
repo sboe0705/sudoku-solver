@@ -12,7 +12,7 @@ func TestGetRow(t *testing.T) {
 	field := CreateNewField(size)
 
 	// when
-	row := field.GetRow(0)
+	row := field.getRow(0)
 
 	// then
 	common.AssertInt(t, size, len(row), "row has wrong length")
@@ -22,7 +22,7 @@ func TestGetRow(t *testing.T) {
 	field.SetValue('A', 0, 1)
 	field.SetValue('B', 0, 2)
 	field.SetValue('C', 0, 3)
-	row = field.GetRow(0)
+	row = field.getRow(0)
 
 	// then
 	common.AssertArray(t, []int{1, 2, 3}, row, "wrong row values")
@@ -35,7 +35,7 @@ func TestGetColumn(t *testing.T) {
 	field := CreateNewField(size)
 
 	// when
-	col := field.GetCol('A')
+	col := field.getCol('A')
 
 	// then
 	common.AssertInt(t, size, len(col), "column has wrong length")
@@ -45,7 +45,7 @@ func TestGetColumn(t *testing.T) {
 	field.SetValue('A', 0, 1)
 	field.SetValue('A', 1, 2)
 	field.SetValue('A', 2, 3)
-	col = field.GetCol('A')
+	col = field.getCol('A')
 
 	// then
 	common.AssertArray(t, []int{1, 2, 3}, col, "wrong column values")
@@ -61,4 +61,44 @@ func TestGetValue(t *testing.T) {
 
 	// when
 	common.AssertInt(t, value, field.GetValue('A', 0), "wrong value")
+}
+
+func TestGetRowValues(t *testing.T) {
+	size := 3
+
+	// given
+	field := CreateNewField(size)
+	field.SetValue('A', 0, 1)
+	field.SetValue('B', 0, 2)
+
+	// when
+	values := field.GetRowValues(0)
+
+	// then
+	common.AssertArray(t, []int{1, 2}, values, "not matching row values")
+
+	// when
+	values = field.GetRowValues(1)
+
+	// then
+	common.AssertArray(t, []int{}, values, "not matching row values")
+}
+
+func TestColRowValues(t *testing.T) {
+	size := 3
+
+	// given
+	field := CreateNewField(size)
+	field.SetValue('A', 0, 1)
+	field.SetValue('A', 1, 2)
+
+	// when
+	values := field.GetColValues(0)
+
+	// then
+	common.AssertArray(t, []int{1, 2}, values, "not matching row values")
+
+	// when
+	values = field.GetColValues(1)
+	common.AssertArray(t, []int{}, values, "not matching row values")
 }

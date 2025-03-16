@@ -28,11 +28,11 @@ func (field Field) Print() {
 	}
 }
 
-func (field Field) GetRow(y int) []int {
+func (field Field) getRow(y int) []int {
 	return slices.Clone(field.cells[y])
 }
 
-func (field Field) GetCol(x int) []int {
+func (field Field) getCol(x int) []int {
 	x = field.toIndex(x)
 	col := make([]int, field.size)
 	for y := 0; y < len(field.cells); y++ {
@@ -49,6 +49,28 @@ func (field Field) SetValue(x, y, value int) {
 func (field Field) GetValue(x, y int) int {
 	x = field.toIndex(x)
 	return field.cells[y][x]
+}
+
+func (field Field) GetRowValues(y int) []int {
+	row := field.getRow(y)
+	return getLineValues(row)
+}
+
+func (field Field) GetColValues(x int) []int {
+	x = field.toIndex(x)
+	col := field.getCol(x)
+	return getLineValues(col)
+}
+
+func getLineValues(line []int) []int {
+	values := []int{}
+	for i := 0; i < len(line); i++ {
+		value := line[i]
+		if value != 0 {
+			values = append(values, value)
+		}
+	}
+	return values
 }
 
 func (field Field) toIndex(letterOrIndex int) int {
