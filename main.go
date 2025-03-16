@@ -1,12 +1,47 @@
 package main
 
 import (
+	"bufio"
+	"fmt"
+	"os"
+	"os/exec"
+	"runtime"
 	"sudoku-solver/sudoku"
 )
 
+var reader = bufio.NewReader(os.Stdin)
+
 func main() {
-	samplField := createSampleField()
-	samplField.Print()
+	field := createSampleField()
+	field.Print()
+
+	for {
+		fmt.Println("\nOptions:")
+		fmt.Println("1. Set value")
+		fmt.Println("2. Solve")
+		fmt.Println("0. Exit")
+		fmt.Print("Select an option: ")
+
+		option := readString()
+		clearConsole()
+
+		switch option {
+		case "1":
+			fmt.Println("Set value:")
+			field.Print()
+			fmt.Println("\nInput (Format: \"X Y ?\"): ")
+			params := readParams()
+			field.SetValue(params[0], params[1], params[2])
+		case "2":
+			fmt.Println("Not implemented yet!")
+		case "0":
+			os.Exit(0)
+		}
+
+		clearConsole()
+		fmt.Println()
+		field.Print()
+	}
 }
 
 func createSampleField() sudoku.Field {
@@ -54,4 +89,32 @@ func createSampleField() sudoku.Field {
 	field.SetValue('I', 8, 5)
 
 	return field
+}
+
+func readParams() []int {
+	input := readString()
+	var a, b, c int
+	_, err := fmt.Sscanf(input, "%d %d %d", &a, &b, &c)
+	if err != nil {
+		fmt.Println("Fehler beim Parsen:", err)
+		return nil
+	}
+	return []int{a, b, c}
+}
+
+func readString() string {
+	value, _ := reader.ReadString('\n')
+	value = value[:len(value)-1] // remove new-line
+	return value
+}
+
+func clearConsole() {
+	switch runtime.GOOS {
+	case "windows":
+		cmd := exec.Command("cmd", "/c", "cls")
+		cmd.Stdout = os.Stdout
+		cmd.Run()
+	default:
+		fmt.Print("\033[H\033[2J")
+	}
 }
