@@ -29,8 +29,10 @@ func getSinglePossibleValue(field sudoku.Field, x, y int) int {
 	possibleValues := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
 	colValues := field.GetCol(x).GetValues()
 	rowValues := field.GetRow(y).GetValues()
+	subFieldValues := field.GetSubField(x, y).GetValues()
 	possibleValues = removeElements(possibleValues, colValues)
 	possibleValues = removeElements(possibleValues, rowValues)
+	possibleValues = removeElements(possibleValues, subFieldValues)
 
 	if len(possibleValues) == 1 {
 		return possibleValues[0]

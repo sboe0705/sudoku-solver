@@ -45,6 +45,25 @@ func TestSolveWithOneMissingNumberInColumnRow(t *testing.T) {
 	common.AssertInt(t, 9, field.GetValue('A', 8), "last possible number in column not correctly solved")
 }
 
+func TestSolveWithOneMissingNumberInSubField(t *testing.T) {
+	// given
+	field := sudoku.CreateNewField(9)
+	field.SetValue('A', 0, 1)
+	field.SetValue('A', 1, 2)
+	field.SetValue('A', 2, 3)
+	field.SetValue('B', 0, 4)
+	field.SetValue('B', 1, 5)
+	field.SetValue('B', 2, 6)
+	field.SetValue('C', 0, 7)
+	field.SetValue('C', 1, 8)
+
+	// when
+	solver.CreateSolver().Solve(field)
+
+	// then
+	common.AssertInt(t, 9, field.GetValue('C', 2), "last possible number in sub field not correctly solved")
+}
+
 func TestSolveWithOneMissingNumberInRowColumnAndSubField(t *testing.T) {
 	// given
 	field := sudoku.CreateNewField(9)
@@ -56,13 +75,9 @@ func TestSolveWithOneMissingNumberInRowColumnAndSubField(t *testing.T) {
 	field.SetValue('C', 4, 5)
 	field.SetValue('C', 8, 6)
 
-	// TODO move numbers to different positions in sub field A/0
-	// field.SetValue('A', 0, 7)
-	// field.SetValue('B', 1, 8)
-	field.SetValue('B', 2, 7)
-	field.SetValue('C', 0, 8)
+	field.SetValue('A', 0, 7)
+	field.SetValue('B', 1, 8)
 
-	field.Print()
 	// when
 	solver.CreateSolver().Solve(field)
 

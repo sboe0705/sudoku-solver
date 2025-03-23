@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestGetValues(t *testing.T) {
+func TestLineGetValues(t *testing.T) {
 	// given
 	line := CreateNewLine([]int{0, 1, 2})
 

@@ -64,12 +64,26 @@ func (field Field) GetCol(x int) Line {
 	return CreateNewLine(col)
 }
 
+func (field Field) GetValues() []int {
+	values := []int{}
+	for y := 0; y < len(field.cells); y++ {
+		for x := 0; x < len(field.cells[y]); x++ {
+			value := field.cells[y][x]
+			if value != 0 {
+				values = append(values, value)
+			}
+		}
+	}
+	slices.Sort(values)
+	return values
+}
+
 func (field Field) GetSubField(x, y int) Field {
 	subField := CreateNewField(3)
 	x = field.toIndex(x)
 	// start indexes
-	xs := x * 3
-	ys := y * 3
+	xs := (x / 3) * 3
+	ys := (y / 3) * 3
 	for iy := ys; iy < ys+3; iy++ {
 		for ix := xs; ix < xs+3; ix++ {
 			subField.SetValue(ix%3, iy%3, field.GetValue(ix, iy))

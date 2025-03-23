@@ -133,7 +133,7 @@ func TestGetSubField(t *testing.T) {
 	common.AssertInt(t, 3, subField.GetValue('C', 2), "wrong value in first subfield")
 
 	// when
-	subField = field.GetSubField('B', 1)
+	subField = field.GetSubField('E', 4)
 
 	// then
 	common.AssertInt(t, 4, subField.GetValue('A', 0), "wrong value in second subfield")
@@ -141,7 +141,7 @@ func TestGetSubField(t *testing.T) {
 	common.AssertInt(t, 6, subField.GetValue('C', 2), "wrong value in second subfield")
 
 	// when
-	subField = field.GetSubField('C', 2)
+	subField = field.GetSubField('I', 8)
 
 	// then
 	common.AssertInt(t, 7, subField.GetValue('A', 0), "wrong value in third subfield")
@@ -149,10 +149,26 @@ func TestGetSubField(t *testing.T) {
 	common.AssertInt(t, 9, subField.GetValue('C', 2), "wrong value in third subfield")
 
 	// when
-	subField = field.GetSubField('A', 2)
+	subField = field.GetSubField('B', 7)
 
 	// then
 	common.AssertInt(t, 1, subField.GetValue('A', 2), "wrong value in fourth subfield")
 	common.AssertInt(t, 2, subField.GetValue('B', 1), "wrong value in fourth subfield")
 	common.AssertInt(t, 3, subField.GetValue('C', 0), "wrong value in fourth subfield")
+}
+
+func TestFieldGetValues(t *testing.T) {
+	// given
+	field := CreateNewField(9)
+	field.SetValue('A', 0, 1)
+	field.SetValue('A', 2, 2)
+	field.SetValue('B', 1, 3)
+	field.SetValue('C', 0, 4)
+	field.SetValue('C', 2, 5)
+
+	// when
+	values := field.GetValues()
+
+	// then
+	common.AssertArray(t, []int{1, 2, 3, 4, 5}, values, "wrong values in field")
 }
