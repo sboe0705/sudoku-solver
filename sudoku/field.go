@@ -64,6 +64,20 @@ func (field Field) GetCol(x int) Line {
 	return CreateNewLine(col)
 }
 
+func (field Field) GetSubField(x, y int) Field {
+	subField := CreateNewField(3)
+	x = field.toIndex(x)
+	// start indexes
+	xs := x * 3
+	ys := y * 3
+	for iy := ys; iy < ys+3; iy++ {
+		for ix := xs; ix < xs+3; ix++ {
+			subField.SetValue(ix%3, iy%3, field.GetValue(ix, iy))
+		}
+	}
+	return subField
+}
+
 func (field Field) toIndex(letterOrIndex int) int {
 	if letterOrIndex >= 'A' && letterOrIndex < 'A'+field.size {
 		return letterOrIndex - 'A'

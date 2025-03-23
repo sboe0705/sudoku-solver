@@ -106,3 +106,53 @@ func TestColRowValues(t *testing.T) {
 	// then
 	common.AssertArray(t, []int{0, 0, 0}, col.cells, "not matching column cells")
 }
+
+func TestGetSubField(t *testing.T) {
+	// given
+	field := CreateNewField(9)
+	field.SetValue('A', 0, 1)
+	field.SetValue('B', 1, 2)
+	field.SetValue('C', 2, 3)
+	field.SetValue('D', 3, 4)
+	field.SetValue('E', 4, 5)
+	field.SetValue('F', 5, 6)
+	field.SetValue('G', 6, 7)
+	field.SetValue('H', 7, 8)
+	field.SetValue('I', 8, 9)
+
+	field.SetValue('A', 8, 1)
+	field.SetValue('B', 7, 2)
+	field.SetValue('C', 6, 3)
+
+	// when
+	subField := field.GetSubField('A', 0)
+
+	// then
+	common.AssertInt(t, 1, subField.GetValue('A', 0), "wrong value in first subfield")
+	common.AssertInt(t, 2, subField.GetValue('B', 1), "wrong value in first subfield")
+	common.AssertInt(t, 3, subField.GetValue('C', 2), "wrong value in first subfield")
+
+	// when
+	subField = field.GetSubField('B', 1)
+
+	// then
+	common.AssertInt(t, 4, subField.GetValue('A', 0), "wrong value in second subfield")
+	common.AssertInt(t, 5, subField.GetValue('B', 1), "wrong value in second subfield")
+	common.AssertInt(t, 6, subField.GetValue('C', 2), "wrong value in second subfield")
+
+	// when
+	subField = field.GetSubField('C', 2)
+
+	// then
+	common.AssertInt(t, 7, subField.GetValue('A', 0), "wrong value in third subfield")
+	common.AssertInt(t, 8, subField.GetValue('B', 1), "wrong value in third subfield")
+	common.AssertInt(t, 9, subField.GetValue('C', 2), "wrong value in third subfield")
+
+	// when
+	subField = field.GetSubField('A', 2)
+
+	// then
+	common.AssertInt(t, 1, subField.GetValue('A', 2), "wrong value in fourth subfield")
+	common.AssertInt(t, 2, subField.GetValue('B', 1), "wrong value in fourth subfield")
+	common.AssertInt(t, 3, subField.GetValue('C', 0), "wrong value in fourth subfield")
+}
